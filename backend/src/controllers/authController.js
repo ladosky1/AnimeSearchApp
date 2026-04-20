@@ -66,8 +66,8 @@ export async function loginUser(req, res){
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "strict",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -96,8 +96,8 @@ export async function getCurrentUser(req, res){
 export async function logoutUser(req, res){
     res.cookie("token", "", {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "strict",
+        secure: true,
+        sameSite: "none",
         expires: new Date(0),
     });
 

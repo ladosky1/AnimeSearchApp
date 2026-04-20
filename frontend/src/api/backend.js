@@ -1,4 +1,4 @@
-const API_BASE = "https://animelad.onrender.com";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export async function getCategories(){
     const response = await fetch(`${API_BASE}/anime/categories`);

@@ -24,7 +24,9 @@ app.use(cors({
             callback(new Error("Not allowed by CORS"));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -37,6 +39,15 @@ app.use("/api/watchlist", watchlistRoutes);
 app.get("/", (req,res) => {
     res.status(200).json({ message: "AnimeLad API running" });
 });
+
+app.get("/debug-routes", (req, res) => {
+    res.json({
+        message: "Server is running",
+        routes: ["/api/auth", "/api/anime", "/api/watchlist"],
+        cwd: process.cwd(),
+        env: process.env.NODE_ENV,
+    })
+})
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://animelad.onrender.com";
 
 export async function getCategories(){
     const response = await fetch(`${API_BASE}/anime/categories`);

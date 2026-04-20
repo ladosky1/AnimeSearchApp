@@ -15,7 +15,7 @@ const app = express();
 app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
-            "http://localhost:5173",
+            process.env.FRONTEND_URL,
         ];
 
         if(!origin || allowedOrigins.includes(origin)) {
@@ -39,15 +39,6 @@ app.use("/api/watchlist", watchlistRoutes);
 app.get("/", (req,res) => {
     res.status(200).json({ message: "AnimeLad API running" });
 });
-
-app.get("/debug-routes", (req, res) => {
-    res.json({
-        message: "Server is running",
-        routes: ["/api/auth", "/api/anime", "/api/watchlist"],
-        cwd: process.cwd(),
-        env: process.env.NODE_ENV,
-    })
-})
 
 const PORT = process.env.PORT || 5000;
 

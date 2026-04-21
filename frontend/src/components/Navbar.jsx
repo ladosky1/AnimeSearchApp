@@ -5,7 +5,6 @@ import { previewAnime } from '../api/backend';
 import { useAuth } from '../context/AuthContext';
 import {MagnifyingGlass, List} from 'phosphor-react';
 import toast from 'react-hot-toast';
-import { set } from 'mongoose';
 
 function Navbar(){
     const { user, logout } = useAuth();

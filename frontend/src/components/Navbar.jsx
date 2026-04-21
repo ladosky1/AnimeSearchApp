@@ -20,6 +20,8 @@ function Navbar(){
     const navigate = useNavigate();
 
     useEffect(() => {
+        let cancelled = false;
+
         async function loadPreview(){
             if(!debounceQuery){
                 setPreview([]);
@@ -27,12 +29,27 @@ function Navbar(){
                 return;
             }
 
-            setPreviewLoading(true);
-            const results = await previewAnime(debounceQuery);
-            setPreview(results);
+            try {
+                setPreviewLoading(true);
+                const results = await previewAnime(debounceQuery);
+                if (!cancelled) {
+                    setPreview(results);
+                }
+            } catch {
+                if (!cancelled){
+                    setPreview([]);
+                }
+            } finally {
+                if (!cancelled){
+                    setPreviewLoading(false);
+                }
+            }
         }
 
         loadPreview();
+        return () => {
+            cancelled = true;
+        };
     }, [debounceQuery]);
 
     useEffect(() => {
@@ -48,8 +65,8 @@ function Navbar(){
             }  
         }
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener("pointerdown", handleClickOutside);
+        return () => document.removeEventListener("pointerdown", handleClickOutside);
     }, []);
 
     const handleKeyDown = (e) => {
@@ -87,18 +104,20 @@ function Navbar(){
     
     return(
         <nav className='sticky top-0 z-50
-                        bg-bgLight shadow-md
+                        bg-bgLight backdrop-blur-md border-b border-white/5
                         px-4 lg:px-8 py-3 
                         flex flex-col md:flex-row
                         md:justify-between md:items-center 
-                        gap-3 md:gap-0'>
-
+                        gap-4 md:gap-0'>
+        <div className='flex justify-center md:justify-start'>
             <Link 
                 to='/'
                 className='text-cyan text-xl font-semibold tracking-wide
                             hover:opacity-80 transition'>
                 aNiMeLad🌀
             </Link>
+        </div>
+            
 
             <div className='flex items-center gap-3 relative'>
                 <div 
@@ -168,7 +187,7 @@ function Navbar(){
                                 </div>
                             )))}
 
-                            {previewLoading && preview.length === 0 && debounceQuery && (
+                            {!previewLoading && preview.length === 0 && debounceQuery && (
                                 <div className='px-4 py-3 text-sm text-textMuted'>
                                     No Results Found
                                 </div>
@@ -222,30 +241,30 @@ function Navbar(){
                         <List size={22} weight='bold'/>
                     </button>
                     {menuOpen && (
-                        <div className='absolute right-0 md:right-0 left-0 md:left-auto
-                                        mt-2 w-full md:w-44 bg-bgLight
+                        <div className='absolute top-12 right-0 md:right-0
+                                        w-full md:w-52 bg-bgLight rounded-base
                                         border border-white/10 shadow-xl overflow-hidden
                                         z-50 flex flex-col'>
                             <Link 
                                 to='/'
                                 onClick={() => setMenuOpen(false)}
-                                className='block px-4 py-2 text-sm hover:bg-white/5 transition'>
+                                className='px-4 py-3 text-sm hover:bg-white/5 transition'>
                                 Home
                             </Link>
                             <Link 
                                 to='/watchlist'
                                 onClick={() => setMenuOpen(false)}
-                                className='block px-4 py-2 text-sm hover:bg-white/5 transition'>
+                                className='px-4 py-3 text-sm hover:bg-white/5 transition'>
                                 Watchlist
                             </Link>
                             <div className='md:hidden border-t border-white/10 mt-1'>
                                 {user ? (
                                     <button 
                                         onClick={() => {
-                                            handleLogout
+                                            handleLogout();
                                             setMenuOpen(false);
                                         }}                                        
-                                        className='w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition'>
+                                        className='w-full text-left px-4 py-3 text-sm hover:bg-white/5 transition'>
                                             Logout
                                         </button>
                                 ) : (
@@ -253,13 +272,13 @@ function Navbar(){
                                         <Link 
                                             to="/login"
                                             onClick={() => setMenuOpen(false)}
-                                            className='block px-4 py-2 text-sm hover:bg-white/5 transition'>
+                                            className='px-4 py-3 text-sm hover:bg-white/5 transition'>
                                                 Login
                                         </Link>
                                         <Link
                                             to="/register"
                                             onClick={() => setMenuOpen(false)}
-                                            className='block px-4 py-2 text-sm hover:bg-white/5 transition'>
+                                            className='px-4 py-3 text-sm hover:bg-white/5 transition'>
                                                 Register
                                         </Link>
                                     </>

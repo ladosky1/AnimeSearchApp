@@ -146,13 +146,13 @@ function Navbar(){
                                         "w-0 opacity-0 pointer-events-none"}`} />
 
                     {searchOpen && (previewLoading || preview.length > 0) && (
-                        <div className='absolute top-12 right-0 w-96 bg-bgLight
+                        <div className='absolute top-12 right-0 md:w-96 w-full bg-bgLight
                                         shadow-2xl overflow-hidden z-50
                                         border border-white/10'>
                         <div className='divide-y divide-white/5'>
                             {previewLoading ? (
                                 Array.from({ length: 4 }).map((_, i) => (
-                                    <div className='flex gap-3 px-4 py-3 animate-pulse'>
+                                    <div key={i} className='flex gap-3 px-4 py-3 animate-pulse'>
                                         <div className='w-12 h-16 bg-white/10 rounded-sm'/>
                                         <div className='flex flex-col gap-2 flex-1'>
                                             <div className='h-3 bg-white/10 rounded w-3/4'></div>
@@ -242,7 +242,7 @@ function Navbar(){
                     </button>
                     {menuOpen && (
                         <div className='absolute top-12 right-0 md:right-0
-                                        w-full md:w-52 bg-bgLight rounded-base
+                                        md:w-32 bg-bgLight rounded-base
                                         border border-white/10 shadow-xl overflow-hidden
                                         z-50 flex flex-col'>
                             <Link 
@@ -257,7 +257,7 @@ function Navbar(){
                                 className='px-4 py-3 text-sm hover:bg-white/5 transition'>
                                 Watchlist
                             </Link>
-                            <div className='md:hidden border-t border-white/10 mt-1'>
+                            <div className='md:hidden flex flex-col border-t border-white/10 mt-1'>
                                 {user ? (
                                     <button 
                                         onClick={() => {

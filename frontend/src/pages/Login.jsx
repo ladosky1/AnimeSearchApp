@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "../api/backend";
+import { loginUser, getCurrentUser } from "../api/backend";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { Eye, EyeSlash } from "phosphor-react";
@@ -35,8 +35,8 @@ function Login(){
             const data = await loginUser(form);
             setUser(data.user);
             toast.success("Login successful");
+            await getCurrentUser();
             navigate("/");
-            
         } catch (err) {
             setError(err.message);
             toast.error("Could not login: " + err.message);

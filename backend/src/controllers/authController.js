@@ -69,6 +69,7 @@ export async function loginUser(req, res){
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -99,6 +100,7 @@ export async function logoutUser(req, res){
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        path: "/",
         expires: new Date(0),
     });
 

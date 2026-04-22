@@ -13,10 +13,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        process.env.FRONTEND_URL,
-    ],
+    origin: "https://animelad-v2.vercel.app",
     credentials: true,
 }));
 

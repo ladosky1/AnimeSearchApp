@@ -2,7 +2,6 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const isProduction = process.env.NODE_ENV === "production";
 
 export async function registerUser(req, res){
     try {
@@ -68,8 +67,8 @@ export async function loginUser(req, res){
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -98,8 +97,8 @@ export async function getCurrentUser(req, res){
 export async function logoutUser(req, res){
     res.cookie("token", "", {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
+        secure: true,
+        sameSite: "none",
         expires: new Date(0),
     });
 

@@ -35,8 +35,8 @@ function Login(){
             const data = await loginUser(form);
             setUser(data.user);
             toast.success("Login successful");
-
-            navigate("/watchlist");
+            navigate("/");
+            
         } catch (err) {
             setError(err.message);
             toast.error("Could not login: " + err.message);

@@ -1,3 +1,5 @@
+import { get } from "mongoose";
+
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export async function getCategories(){
@@ -40,12 +42,22 @@ export async function detailAnime(id) {
     return response.json();
 }
 
+function getAuthHeaders(){
+    const token = localStorage.getItem("token");
+
+    return token ? 
+                    {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    } : {
+                        "Content-type": "application/json"
+                    };
+}
+
 export async function registerUser(formData){
     const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(formData)
     });
 
@@ -61,10 +73,7 @@ export async function registerUser(formData){
 export async function loginUser(formData){
     const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
+        headers: getAuthHeaders(),
         body: JSON.stringify(formData)
     });
     
@@ -74,27 +83,19 @@ export async function loginUser(formData){
         throw new Error(data.message || "Login Failed")
     }
 
+    localStorage.setItem("token", data.token);
+
     return data;
 }
 
 export async function logoutUser(){
-    const res = await fetch(`${API_BASE}/auth/logout`, {
-        method: "POST",
-        credentials: "include"
-    })
-
-    const data = await res.json();
-
-    if(!res.ok){
-        throw new Error(data.message || "Logout Failed")
-    }
-
-    return data;
+    localStorage.removeItem("token");
+    return { message: "Logged Out" };
 }
 
 export async function getCurrentUser(){
     const res = await fetch(`${API_BASE}/auth/me`, {
-        credentials: "include",
+        headers: getAuthHeaders(),
     });
 
     if(res.status === 401){
@@ -107,10 +108,7 @@ export async function getCurrentUser(){
 export async function addToWatchlist(anime){
     const res = await fetch(`${API_BASE}/watchlist`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
+        headers: getAuthHeaders(),
         body: JSON.stringify(anime)
     })
 
@@ -129,7 +127,7 @@ export async function addToWatchlist(anime){
 
 export async function getWatchlist(){
     const res = await fetch(`${API_BASE}/watchlist`, {
-        credentials: "include",
+        headers: getAuthHeaders(),
     });
 
     if(res.status === 401){
@@ -148,7 +146,7 @@ export async function getWatchlist(){
 export async function deleteWatchlist(animeId){
     const res = await fetch(`${API_BASE}/watchlist/${animeId}`, {
         method: "DELETE",
-        credentials: "include",
+        headers: getAuthHeaders(),
     })
 
     const data = await res.json();

@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import animeRoutes from "./routes/animeRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -11,11 +10,9 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.set('trust proxy', 1);
 
 app.use(cors({
     origin: "https://animelad-v2.vercel.app",
-    credentials: true,
 }));
 
 app.use(express.json());

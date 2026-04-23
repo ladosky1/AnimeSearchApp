@@ -1,5 +1,3 @@
-import { get } from "mongoose";
-
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export async function getCategories(){
@@ -47,17 +45,19 @@ function getAuthHeaders(){
 
     return token ? 
                     {
-                        "Content-type": "application/json",
+                        "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`
                     } : {
-                        "Content-type": "application/json"
+                        "Content-Type": "application/json"
                     };
 }
 
 export async function registerUser(formData){
     const res = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
-        headers: getAuthHeaders(),
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(formData)
     });
 
@@ -73,7 +73,9 @@ export async function registerUser(formData){
 export async function loginUser(formData){
     const res = await fetch(`${API_BASE}/auth/login`, {
         method: "POST",
-        headers: getAuthHeaders(),
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(formData)
     });
     

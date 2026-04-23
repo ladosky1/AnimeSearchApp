@@ -165,7 +165,10 @@ function Navbar(){
                                 <div 
                                     key={anime.id}
                                     onMouseEnter={() => setActiveIndex(index)}
-                                    onClick={() => navigate(`/results?q=${anime.title}`)}
+                                    onClick={() => {
+                                        navigate(`/results?q=${anime.title}`);
+                                        setSearchOpen(false);
+                                    }}
                                     className={`flex gap-3 px-3 py-2 cursor-pointer transition
                                                 border border-white/5
                                                 ${index === activeIndex ? 

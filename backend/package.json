@@ -4,10 +4,10 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "tsc",
-      "start": "node dist/server.js",
-      "dev": "tsx watch src/server.ts"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
